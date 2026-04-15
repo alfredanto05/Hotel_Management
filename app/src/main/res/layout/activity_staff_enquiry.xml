@@ -3,52 +3,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#F5F5F5">
+    android:padding="24dp"
+    android:background="#050505"
+    android:fitsSystemWindows="true">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Staff Enquiry"
-        android:textSize="24sp"
+        android:text="Staff Directory"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginBottom="16dp" />
+        android:textColor="#D4AF37"
+        android:layout_marginBottom="8dp" />
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:text="Internal Employee Verification"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="#888888"
+        android:layout_marginBottom="32dp" />
 
-        <EditText
-            android:id="@+id/etStaffId"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Enter Staff ID"
-            android:inputType="text" />
+    <EditText
+        android:id="@+id/etStaffId"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="Enter Staff ID (e.g. EMP-01)"
+        android:textColorHint="#555555"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#D4AF37"
+        android:inputType="textCapCharacters"
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="16dp" />
 
-        <Button
-            android:id="@+id/btnSearchStaff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search"
-            android:layout_marginStart="8dp"/>
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnSearchStaff"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="Search Profile"
+        android:textColor="#050505"
+        android:textStyle="bold"
+        android:backgroundTint="#D4AF37"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Profile Details:"
+        android:textColor="#AAAAAA"
+        android:layout_marginBottom="8dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:background="#FFFFFF"
-        android:padding="8dp">
+        android:background="#111111"
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tvStaffResults"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Results will appear here..."
+            android:text="Awaiting query..."
+            android:textColor="#FFFFFF"
             android:textSize="16sp"
-            android:textColor="#333333"/>
+            android:lineSpacingExtra="6dp" />
+
     </ScrollView>
 </LinearLayout>

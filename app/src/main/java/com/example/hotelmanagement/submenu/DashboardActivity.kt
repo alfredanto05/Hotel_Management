@@ -1,6 +1,7 @@
 package com.example.hotelmanagement.submenu
 
 import android.graphics.Color
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +20,7 @@ import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 class DashboardActivity : AppCompatActivity() {
 
@@ -96,41 +98,61 @@ class DashboardActivity : AppCompatActivity() {
         pieChart.invalidate()
     }
 
-    private fun setupBarChart(salesData: List<Map<String, String>>) {
-        val barChart = findViewById<BarChart>(R.id.barChartSales)
+    private fun setupBarChart(salesDataList: List<Map<String, String>>) {
+        val barChart = findViewById<com.github.mikephil.charting.charts.BarChart>(R.id.barChart)
 
-        val entries = ArrayList<BarEntry>()
-        val labels = ArrayList<String>()
+        // 1. Generate the strings for the last 3 months (e.g., "2026-02", "2026-03", "2026-04")
+        val format = SimpleDateFormat("yyyy-MM", Locale.getDefault())
+        val last3Months = mutableListOf<String>()
 
-        salesData.forEachIndexed { index, map ->
-            val month = map["month"] ?: "Unknown"
-            val count = map["total_bookings"]?.toFloatOrNull() ?: 0f
-
-            entries.add(BarEntry(index.toFloat(), count))
-            labels.add(month)
+        for (i in 2 downTo 0) {
+            val cal = Calendar.getInstance()
+            cal.add(Calendar.MONTH, -i)
+            last3Months.add(format.format(cal.time))
         }
 
-        val dataSet = BarDataSet(entries, "Bookings per Month")
-        dataSet.color = Color.parseColor("#D4AF37") // Gold bars
-        dataSet.valueTextColor = Color.WHITE
+        // 2. Convert the API list into a Map so it's easy to look up booking counts
+        val dataMap = salesDataList.associate {
+            it["month"] as String to (it["total_bookings"]?.toFloatOrNull() ?: 0f)
+        }
+
+        // 3. Match the API data to our 3 months (put a 0 if the month is empty)
+        val entries = ArrayList<com.github.mikephil.charting.data.BarEntry>()
+        val labels = ArrayList<String>()
+
+        for ((index, monthStr) in last3Months.withIndex()) {
+            val count = dataMap[monthStr] ?: 0f // Default to 0 if no bookings exist
+            entries.add(com.github.mikephil.charting.data.BarEntry(index.toFloat(), count))
+            labels.add(monthStr)
+        }
+
+        // 4. Create the visual dataset
+        val dataSet = com.github.mikephil.charting.data.BarDataSet(entries, "Monthly Bookings")
+        dataSet.color = android.graphics.Color.parseColor("#D4AF37") // Gold bars
+        dataSet.valueTextColor = android.graphics.Color.WHITE
         dataSet.valueTextSize = 12f
 
-        barChart.data = BarData(dataSet)
-        barChart.description.isEnabled = false
-        barChart.legend.textColor = Color.WHITE
+        val barData = com.github.mikephil.charting.data.BarData(dataSet)
+        barChart.data = barData
 
-        // Setup X Axis
+        // --- 5. THE CRITICAL X-AXIS FIX ---
         val xAxis = barChart.xAxis
-        xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.textColor = Color.WHITE
         xAxis.valueFormatter = IndexAxisValueFormatter(labels)
-        xAxis.setDrawGridLines(false) // Keeps it clean
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.textColor = android.graphics.Color.WHITE
 
-        // Setup Y Axis
-        barChart.axisLeft.textColor = Color.WHITE
-        barChart.axisRight.isEnabled = false // Hide right numbers
+        // This physically stops the chart from creating duplicate half-step labels
+        xAxis.granularity = 1f
+        xAxis.isGranularityEnabled = true
+        xAxis.setDrawGridLines(false)
 
-        barChart.animateY(1000) // Bar growth animation
+        // Final UI Polish
+        barChart.axisLeft.textColor = android.graphics.Color.WHITE
+        barChart.axisLeft.axisMinimum = 0f // Ensure the chart always starts at 0
+        barChart.axisRight.isEnabled = false
+        barChart.description.isEnabled = false
+        barChart.legend.textColor = android.graphics.Color.WHITE
+
+        // Refresh the chart to show the new data
         barChart.invalidate()
-    }
-}
+    }}
