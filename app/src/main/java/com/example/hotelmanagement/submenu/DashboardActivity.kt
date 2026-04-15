@@ -31,8 +31,7 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun fetchAndRenderData() {
         val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
-        val occupancyQuery = SqlQueries.getCurrentOccupancyQuery(today)
-        val salesQuery = SqlQueries.getMonthlySalesQuery()
+
 
         CoroutineScope(Dispatchers.IO).launch {
             try {

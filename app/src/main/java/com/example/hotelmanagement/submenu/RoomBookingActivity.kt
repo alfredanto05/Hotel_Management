@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hotelmanagement.NetworkManager
 import com.example.hotelmanagement.R
-import com.example.hotelmanagement.SqlQueries
-import com.example.hotelmanagement.SqlQueryRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +17,7 @@ import kotlinx.coroutines.withContext
 import java.util.Calendar
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
+import com.example.hotelmanagement.AvailabilityRequest
 
 class RoomBookingActivity : AppCompatActivity() {
 

@@ -8,9 +8,10 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hotelmanagement.CleaningRequest
+import com.example.hotelmanagement.FoodOrderRequest
 import com.example.hotelmanagement.NetworkManager
 import com.example.hotelmanagement.R
-import com.example.hotelmanagement.SqlQueries
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -87,7 +88,13 @@ class RoomServiceActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response = NetworkManager.api.orderFood(FoodOrderRequest(roomNo, itemName, price))
+                val response = NetworkManager.api.orderFood(
+                    FoodOrderRequest(
+                        roomNo,
+                        itemName,
+                        price
+                    )
+                )
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         Toast.makeText(this@RoomServiceActivity, "$itemName ordered for Room $roomNo!", Toast.LENGTH_LONG).show()

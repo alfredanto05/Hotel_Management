@@ -7,10 +7,10 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.hotelmanagement.BookingRequest
 import com.example.hotelmanagement.MainActivity
 import com.example.hotelmanagement.NetworkManager
 import com.example.hotelmanagement.R
-import com.example.hotelmanagement.SqlQueries
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

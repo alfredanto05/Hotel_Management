@@ -52,7 +52,8 @@ interface ApiService {
 
 // --- 4. Retrofit Builder ---
 object NetworkManager {
-    private const val BASE_URL = "http://10.0.2.2:5000/"
+    // This tells the phone to talk to the USB cable
+    private const val BASE_URL = "http://10.174.15.253:8080/"
     val api: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
